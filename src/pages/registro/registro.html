@@ -6,19 +6,15 @@
 <ion-content padding>
 	<form (ngSubmit)="registrarse()">
 	  <ion-item>
-	    <ion-label>Nombre</ion-label>
+	    <ion-label>Eliga un nombre de usuario</ion-label>
 	    <ion-input type="text" [(ngModel)]="usr.nombre" name="nombre"></ion-input>
-	  </ion-item>
-	  <ion-item>
-	    <ion-label>Apellido</ion-label>
-	    <ion-textarea [(ngModel)]="usr.apellido" name="apellido"></ion-textarea>
 	  </ion-item>
 	  <ion-item>
 	    <ion-label>Email</ion-label>
 	    <ion-textarea [(ngModel)]="usr.email" name="email"></ion-textarea>
 	  </ion-item>
 	  <ion-item>
-	    <ion-label>PassWord</ion-label>
+	    <ion-label>Contraseña</ion-label>
 	    <ion-input type="PassWord" [(ngModel)]="usr.clave" name="clave"></ion-input>
 	  </ion-item>
 	  <button ion-button type="submit" block>Registrarse</button>
