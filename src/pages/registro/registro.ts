@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 
 import { User } from '../../clases/usr';
 import { AngularFireAuth } from 'angularfire2/auth'
-import { ToastController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
-
 
 @IonicPage()
 @Component({
@@ -27,7 +24,7 @@ export class RegistroPage {
 
   presentAlert(msj : string) {
     let alert = this.alertCtrl.create({
-      title: 'Informe de Ingreso : ',
+      title: 'Informe de Registro : ',
       subTitle: msj,
       buttons: ['Dismiss']
     });
@@ -56,6 +53,7 @@ export class RegistroPage {
       console.log("result : ",result);
       this.presentToast();
       //redirect 
+      this.navCtrl.push('');
   	}catch(e){
   	  console.log("ERROR : ",e); 
       this.presentAlert(e.message); 
