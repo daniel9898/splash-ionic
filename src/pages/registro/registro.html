@@ -4,19 +4,19 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-	<form (ngSubmit)="registrarse()">
-	  <ion-item>
-	    <ion-label>Nombre de usuario</ion-label>
-	    <ion-input type="text" [(ngModel)]="usr.nombre" name="nombre"></ion-input>
-	  </ion-item>
-	  <ion-item>
-	    <ion-label>Email</ion-label>
-	    <ion-textarea [(ngModel)]="usr.email" name="email"></ion-textarea>
-	  </ion-item>
-	  <ion-item>
-	    <ion-label>Contraseña</ion-label>
-	    <ion-input type="PassWord" [(ngModel)]="usr.clave" name="clave"></ion-input>
-	  </ion-item>
-	  <button ion-button type="submit" block>Registrarse</button>
-	</form>
+
+  <ion-item>
+    <ion-label>Nombre de usuario</ion-label>
+    <ion-input type="text" [(ngModel)]="usr.nombre" name="nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Email</ion-label>
+    <ion-textarea [(ngModel)]="usr.email" name="email"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label>Contraseña</ion-label>
+    <ion-input type="PassWord" [(ngModel)]="usr.clave" name="clave"></ion-input>
+  </ion-item>
+  <button ion-button (click)="registrarse()" block>Registrarse</button>
+
 </ion-content>

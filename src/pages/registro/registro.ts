@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
-
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { User } from '../../clases/usr';
-import { AngularFireAuth } from 'angularfire2/auth'
+import { FirebaseDbProvider } from '../../providers/firebase-db/firebase-db';
+import { UtilitiesProvider } from '../../providers/utilities/utilities';
+
 
 @IonicPage()
 @Component({
@@ -12,53 +13,87 @@ import { AngularFireAuth } from 'angularfire2/auth'
 export class RegistroPage {
 
   usr : User;
-
+ 
   constructor(public navCtrl: NavController, 
   	          public navParams: NavParams,
-  	          private ofauth: AngularFireAuth,
-              private toastCtrl: ToastController,
-              private alertCtrl: AlertController) {
+              public firebaseService: FirebaseDbProvider,
+              public utilities: UtilitiesProvider,
+              ) {
 
   	this.usr = new User();
   }
 
-  presentAlert(msj : string) {
-    let alert = this.alertCtrl.create({
-      title: 'Informe de Registro : ',
-      subTitle: msj,
-      buttons: ['Dismiss']
-    });
-    alert.present();
+  registrarse(){
+
+    this.utilities.showLoading();
+    this.firebaseService.authentication(this.usr)
+       .then(result =>{
+
+         this.utilities.showToast("REGISTRO EXITOSO !!");
+         let usr = this.usr.formatUser(this.usr, result);
+         this.saveUser(usr);
+         this.utilities.dismissLoading();
+
+       })
+       .catch(error =>{
+         console.log(error);
+         this.utilities.dismissLoading();
+         this.utilities.showAlert("Informe de registro",error.message);
+       });
   }
 
-  presentToast() {
+  saveUser(usr){
 
-    let toast = this.toastCtrl.create({
-      message: 'Usted se registro exitosamente !!',
-      duration: 3000,
-      position: 'middle'
-    });
+    this.firebaseService.operationDB("insert", "usuarios", usr.uid, usr)
+      .then(result =>{
+        this.navCtrl.push("HomePage",this.usr);
 
-    toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
-    });
-
-    toast.present();
-}
-
-  async registrarse(){
-   
-  	try{
-      const result = await this.ofauth.auth.createUserWithEmailAndPassword(this.usr.email,this.usr.clave);
-      console.log("result : ",result);
-      this.presentToast();
-      //redirect 
-      this.navCtrl.push('');
-  	}catch(e){
-  	  console.log("ERROR : ",e); 
-      this.presentAlert(e.message); 
-  	}
-
+      })
+      .catch(error => {
+        this.utilities.showAlert("Error al guardar el usuario",error.message);
+      });
   }
 
+  getUser(collectionName: string, id: string){
+    this.firebaseService.operationDB("get", collectionName, id)
+      .then(doc =>{
+        if(doc.exists)
+          console.log("un usr ",doc.data());
+        else{
+          console.log("error el usr es null");
+        }
+      })
+      .catch(error =>{
+        console.log("error un usr ",error);
+    })
+  }
+
+  getAllUser(collectionName: string){
+    this.firebaseService.operationDB("getAll",collectionName)
+      .then(docs =>{
+          docs.forEach((doc) => {
+             console.log(doc.id, " => ", doc.data());
+          });
+      })
+      .catch(error =>{
+        console.log("error all traer todos los usuarios ",error);
+    })
+  }
+
+  deleteUser(id: string){
+    this.firebaseService.operationDB("delete","usuarios",id)
+      .then(() =>{ console.log("documento borrado con exito"); })
+      .catch(error =>{
+        console.log("error al borrar el usr ",error);
+    })
+  }
+
+  updateUser(id: string, data: any){
+    this.firebaseService.operationDB("update","usuarios",id,data)
+      .then(() =>{ console.log("user actualizado con exito"); })
+      .catch(error =>{
+        console.log("error al actualizar el usr ",error);
+    })
+  }
+  
 }

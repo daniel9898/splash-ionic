@@ -11,8 +11,10 @@ import { AngularFireAuth } from 'angularfire2/auth';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-
-  usr : User;
+   
+   email : string;
+   clave : string;
+ 
 
   constructor(public navCtrl: NavController, 
   	          public navParams: NavParams,
@@ -21,10 +23,10 @@ export class LoginPage {
               private alertCtrl: AlertController,
               public loadingCtrl: LoadingController) {
 
-  	this.usr = new User();
+ 
   }
 
-  presentAlert(msj : string) {
+  showAlert(msj : string) {
     let alert = this.alertCtrl.create({
       title: 'Informe de Ingreso : ',
       subTitle: msj,
@@ -33,7 +35,7 @@ export class LoginPage {
     alert.present();
   }
 
-  presentToast() {
+  showToast() {
 
     let toast = this.toastCtrl.create({
       message: 'Ingreso Exitoso !!',
@@ -48,7 +50,7 @@ export class LoginPage {
     toast.present();
   }
 
-  presentLoadingDefault() {
+  showLoadingDefault() {
     let loading = this.loadingCtrl.create({
       content: 'Espere por favor...'
     });
@@ -63,15 +65,16 @@ export class LoginPage {
   
   async login(){
 
-    this.presentLoadingDefault();
-    
     try{
-    	const result = await this.ofauth.auth.signInWithEmailAndPassword(this.usr.email,this.usr.clave);
+    	const result = await this.ofauth.auth.signInWithEmailAndPassword(this.email,this.clave);
     	console.log("result : ",result);
-      this.presentToast(); 
-      this.navCtrl.push('');
+
+
+      this.showToast();
+      this.navCtrl.push("HomePage"); 
+      //this.navCtrl.push('HomePage');
     }catch(e){
-       this.presentAlert(e.message); 
+       this.showAlert(e.message); 
        console.log("ERROR : ",e);
     }
     
