@@ -5,7 +5,11 @@ export class User {
   public email : string;
   public uid : string;
 
-  constructor() {}
+  constructor(nombre? : string, email? : string, uid? : string) {
+  	this.nombre = nombre;
+  	this.email = email;
+  	this.uid = uid;
+  }
 
   formatUser(usr: User ,data : any) : any{
   	delete usr.clave;

@@ -18,7 +18,9 @@ export class MyApp {
 
   showSplash = true;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, 
+              public statusBar: StatusBar, 
+              public splashScreen: SplashScreen) {
 
     this.appInit();
   }
@@ -29,7 +31,7 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
-      timer(3000).subscribe(() =>{
+      timer(1500).subscribe(() =>{
          this.showSplash = false;
       })
 

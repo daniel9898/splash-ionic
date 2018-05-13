@@ -13,7 +13,9 @@
 </ion-header>
 
 <ion-content padding>
- <img src="../../assets/imgs/matafuego.jpg" width="100%" height="50%" (click)="matafuego()" >
- <img src="../../assets/imgs/planta2.jpg" width="100%" height="50%" (click)="plantas()">
+ <img src="../../assets/imgs/matafuego.jpg" width="100%" height="50%" 
+      (click)="emitirVotacion('matafuego')" >
+ <img src="../../assets/imgs/planta2.jpg" width="100%" height="50%"
+      (click)="emitirVotacion('plantas')">
 </ion-content>
 

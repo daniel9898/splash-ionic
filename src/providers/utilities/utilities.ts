@@ -33,10 +33,10 @@ export class UtilitiesProvider {
     toast.present();
   }
 
-  showLoading(){
+  showLoading(dismissOnPageChange? : boolean){
     this.loading = this.loadingCtrl.create({
       content: 'Por favor espere...',
-      dismissOnPageChange: false
+      dismissOnPageChange: (dismissOnPageChange != null) ? dismissOnPageChange : false
     });
 
     this.loading.present();

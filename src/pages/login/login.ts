@@ -3,7 +3,10 @@ import { IonicPage, NavController, NavParams, ToastController,
          AlertController, LoadingController } from 'ionic-angular';
 
 import { User } from '../../clases/usr';
+import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Storage } from '@ionic/storage';
+
 
 @IonicPage()
 @Component({
@@ -12,76 +15,43 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class LoginPage {
    
-   email : string;
-   clave : string;
- 
+  email : string;
+  clave : string;
 
+  user : User;
+  
   constructor(public navCtrl: NavController, 
   	          public navParams: NavParams,
   	          private ofauth: AngularFireAuth,
-              private toastCtrl: ToastController,
-              private alertCtrl: AlertController,
-              public loadingCtrl: LoadingController) {
+              public utilities: UtilitiesProvider,
+              private storage: Storage) {}
 
- 
-  }
-
-  showAlert(msj : string) {
-    let alert = this.alertCtrl.create({
-      title: 'Informe de Ingreso : ',
-      subTitle: msj,
-      buttons: ['Dismiss']
-    });
-    alert.present();
-  }
-
-  showToast() {
-
-    let toast = this.toastCtrl.create({
-      message: 'Ingreso Exitoso !!',
-      duration: 3000,
-      position: 'middle'
-    });
-
-    toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
-    });
-
-    toast.present();
-  }
-
-  showLoadingDefault() {
-    let loading = this.loadingCtrl.create({
-      content: 'Espere por favor...'
-    });
-
-    loading.present();
-
-    setTimeout(() => {
-      loading.dismiss();
-    }, 5000);
-  }
-
-  
   async login(){
 
+    this.utilities.showLoading(true);
+
     try{
-    	const result = await this.ofauth.auth.signInWithEmailAndPassword(this.email,this.clave);
-    	console.log("result : ",result);
+        	const infoUsr = await this.ofauth.auth.signInWithEmailAndPassword(this.email,this.clave);
+          this.user = new User(infoUsr.email,infoUsr.email,infoUsr.uid);
+          this.storage.set('usr',this.user);
 
-
-      this.showToast();
-      this.navCtrl.push("HomePage"); 
-      //this.navCtrl.push('HomePage');
+          this.utilities.showToast('INGRESO EXITOSO !!');
+          this.navCtrl.push("HomePage"); 
+     
     }catch(e){
-       this.showAlert(e.message); 
-       console.log("ERROR : ",e);
+
+          this.utilities.dismissLoading();
+          this.utilities.showAlert("Error : ",e.message); 
+          console.log("ERROR : ",e);
     }
     
   }
 
   paginaRegistro(){
+
+    this.utilities.showLoading(true);
   	this.navCtrl.push('RegistroPage');
+
   }
 
 }

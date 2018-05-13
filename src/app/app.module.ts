@@ -7,7 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 
 import  { LoginPage } from '../pages/login/login';
-
+import { IonicStorageModule } from '@ionic/storage';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
@@ -27,8 +27,10 @@ import { UtilitiesProvider } from '../providers/utilities/utilities';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
+    IonicStorageModule.forRoot(),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    IonicStorageModule
     
   ],
   bootstrap: [IonicApp],

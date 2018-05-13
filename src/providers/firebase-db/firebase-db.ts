@@ -16,7 +16,7 @@ export class FirebaseDbProvider {
     
   }
 
-  async authentication(user: User){
+  async authentication(user: any){
     return this.ofauth.auth.createUserWithEmailAndPassword(user.email, user.clave);
   }
 
@@ -36,22 +36,26 @@ export class FirebaseDbProvider {
   
 
   async operationDB(operationName : string, collectionName: string, id?: string,  data?: any){
-    const docRef = (operationName == "getAll") ? this.db.collection(collectionName) : 
-                                                 this.db.collection(collectionName).doc(id);
+
     switch (operationName) {
       case "getAll":
-        return docRef.ref.get();
+        return this.db.collection(collectionName).valueChanges();
       case "get":
-        return docRef.ref.get();
-      case "insert":
-        return docRef.ref.set(data); //se podria verificar si es insert y id no esta definido generar id automatico
+        return this.db.collection(collectionName).doc(id).ref.get();
+      case "insert":  //se podria verificar si es insert y id no esta definido generar id automatico
+        return this.db.collection(collectionName).doc(id).ref.set(data);
       case "delete":
-        return docRef.ref.delete();
+        return this.db.collection(collectionName).doc(id).ref.delete();
       case "update":
-        return docRef.ref.update(data);
+        return this.db.collection(collectionName).doc(id).ref.update(data);
       default:
         return "Operacion No valida";
     }
+  }
+
+  async querysDB( collectionName: string, field: string, oper: any, value: string){
+
+    return this.db.collection(collectionName).ref.where(field, oper, value).get();
   }
 
 

@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { User } from '../../clases/usr';
 import { FirebaseDbProvider } from '../../providers/firebase-db/firebase-db';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
-
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -18,9 +18,9 @@ export class RegistroPage {
   	          public navParams: NavParams,
               public firebaseService: FirebaseDbProvider,
               public utilities: UtilitiesProvider,
-              ) {
+              private storage: Storage) {
 
-  	this.usr = new User();
+    this.usr = new User();
   }
 
   registrarse(){
@@ -36,32 +36,32 @@ export class RegistroPage {
 
        })
        .catch(error =>{
-         console.log(error);
+
          this.utilities.dismissLoading();
          this.utilities.showAlert("Informe de registro",error.message);
+         
        });
   }
 
   saveUser(usr){
 
     this.firebaseService.operationDB("insert", "usuarios", usr.uid, usr)
-      .then(result =>{
-        this.navCtrl.push("HomePage",this.usr);
-
+      .then(result => {
+        this.storage.set('usr', usr);
+        this.navCtrl.push("HomePage")
       })
-      .catch(error => {
-        this.utilities.showAlert("Error al guardar el usuario",error.message);
-      });
+      .catch(error => this.utilities.showAlert("Error al guardar el usuario",error.message));
   }
 
   getUser(collectionName: string, id: string){
     this.firebaseService.operationDB("get", collectionName, id)
       .then(doc =>{
-        if(doc.exists)
-          console.log("un usr ",doc.data());
-        else{
+        //if(doc.exists)
+          console.log("un usr ",doc);
+        //else{
           console.log("error el usr es null");
-        }
+        
+       //}
       })
       .catch(error =>{
         console.log("error un usr ",error);
@@ -71,9 +71,9 @@ export class RegistroPage {
   getAllUser(collectionName: string){
     this.firebaseService.operationDB("getAll",collectionName)
       .then(docs =>{
-          docs.forEach((doc) => {
+          /*docs.forEach((doc) => {
              console.log(doc.id, " => ", doc.data());
-          });
+          });*/
       })
       .catch(error =>{
         console.log("error all traer todos los usuarios ",error);
