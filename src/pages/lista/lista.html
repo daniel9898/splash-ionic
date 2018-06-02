@@ -13,18 +13,17 @@
 
 <ion-content padding>
     <ion-grid>
-      <ion-label>Cantidad de Votos :</ion-label>
-      <ion-row>
-        <ion-col col-6>Plantas</ion-col>
-        <ion-col col-6>Matafuegos</ion-col>
+      <ion-label class="label1"><h3>Cantidad de Votos :</h3></ion-label>
+      <ion-row >
+        <ion-col col-6> <h4>Plantas</h4> </ion-col>
+        <ion-col col-6><h4>Matafuegos</h4></ion-col>
       </ion-row>
       <ion-row>
         <ion-col col-6>{{ cantPlantas }}</ion-col>
         <ion-col col-6>{{ cantMataf }}</ion-col>
       </ion-row>
-      <ion-label>Total de votos emitidos : {{ totalVotos }} </ion-label>
-      <ion-label *ngIf="title == 'Resultado Final'">Ganador : {{ ganador }}
-        <ion-icon name="star"></ion-icon>
+      <ion-label class="label1"><h4>Total de votos emitidos : {{ totalVotos }} </h4></ion-label>
+      <ion-label class="labelG" *ngIf="title == 'Resultado Final'"><h5>Ganador : {{ ganador }} </h5>
       </ion-label>
     </ion-grid>
 </ion-content>

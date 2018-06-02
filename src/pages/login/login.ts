@@ -47,6 +47,11 @@ export class LoginPage {
     
   }
 
+  setTestLogin(em :string , cl :string){
+    this.clave = cl;
+    this.email = em;
+  }
+
   paginaRegistro(){
 
     this.utilities.showLoading(true);

@@ -1,3 +1,32 @@
 page-lista {
- 
+  
+}
+
+ion-row {
+     //background: rgba(55, 143, 63, 0.603);
+	width: 300px;
+	height: 100px;
+	border-style: inset;
+	//border: 6px #1b1a19;
+}
+
+ion-col{
+	padding: 5px;
+	color:black;
+	//margin: 10px 10px 0 0;
+	font: bold 30px Georgia, "Times New Roman", Times, serif;
+	//text-align: right;
+}
+
+.label1{
+	padding: 10px;
+	background: #7FFFD4;
+	border-style: groove;
+}
+
+
+.labelG{
+	padding: 10px;
+	background:#FFD700;
+	border-style: groove;
 }
